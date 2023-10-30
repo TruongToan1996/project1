@@ -12,55 +12,55 @@ namespace Aptech3.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusesController : ControllerBase
+    public class TicketCountersController : ControllerBase
     {
         private readonly Aptech3Context _context;
 
-        public BusesController(Aptech3Context context)
+        public TicketCountersController(Aptech3Context context)
         {
             _context = context;
         }
 
-        // GET: api/Buses
+        // GET: api/TicketCounters
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bus>>> GetBuses()
+        public async Task<ActionResult<IEnumerable<TicketCounter>>> GetTicketCounters()
         {
-          if (_context.Buses == null)
+          if (_context.TicketCounters == null)
           {
               return NotFound();
           }
-            return await _context.Buses.ToListAsync();
+            return await _context.TicketCounters.ToListAsync();
         }
 
-        // GET: api/Buses/5
+        // GET: api/TicketCounters/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bus>> GetBus(int id)
+        public async Task<ActionResult<TicketCounter>> GetTicketCounter(int id)
         {
-          if (_context.Buses == null)
+          if (_context.TicketCounters == null)
           {
               return NotFound();
           }
-            var bus = await _context.Buses.FindAsync(id);
+            var ticketCounter = await _context.TicketCounters.FindAsync(id);
 
-            if (bus == null)
+            if (ticketCounter == null)
             {
                 return NotFound();
             }
 
-            return bus;
+            return ticketCounter;
         }
 
-        // PUT: api/Buses/5
+        // PUT: api/TicketCounters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBus(int id, Bus bus)
+        public async Task<IActionResult> PutTicketCounter(int id, TicketCounter ticketCounter)
         {
-            if (id != bus.BusId)
+            if (id != ticketCounter.CounterId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bus).State = EntityState.Modified;
+            _context.Entry(ticketCounter).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace Aptech3.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BusExists(id))
+                if (!TicketCounterExists(id))
                 {
                     return NotFound();
                 }
@@ -81,23 +81,23 @@ namespace Aptech3.Controllers
             return NoContent();
         }
 
-        // POST: api/Buses
+        // POST: api/TicketCounters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bus>> PostBus(Bus bus)
+        public async Task<ActionResult<TicketCounter>> PostTicketCounter(TicketCounter ticketCounter)
         {
-          if (_context.Buses == null)
+          if (_context.TicketCounters == null)
           {
-              return Problem("Entity set 'Aptech3Context.Buses'  is null.");
+              return Problem("Entity set 'Aptech3Context.TicketCounters'  is null.");
           }
-            _context.Buses.Add(bus);
+            _context.TicketCounters.Add(ticketCounter);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (BusExists(bus.BusId))
+                if (TicketCounterExists(ticketCounter.CounterId))
                 {
                     return Conflict();
                 }
@@ -107,32 +107,32 @@ namespace Aptech3.Controllers
                 }
             }
 
-            return CreatedAtAction("GetBus", new { id = bus.BusId }, bus);
+            return CreatedAtAction("GetTicketCounter", new { id = ticketCounter.CounterId }, ticketCounter);
         }
 
-        // DELETE: api/Buses/5
+        // DELETE: api/TicketCounters/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBus(int id)
+        public async Task<IActionResult> DeleteTicketCounter(int id)
         {
-            if (_context.Buses == null)
+            if (_context.TicketCounters == null)
             {
                 return NotFound();
             }
-            var bus = await _context.Buses.FindAsync(id);
-            if (bus == null)
+            var ticketCounter = await _context.TicketCounters.FindAsync(id);
+            if (ticketCounter == null)
             {
                 return NotFound();
             }
 
-            _context.Buses.Remove(bus);
+            _context.TicketCounters.Remove(ticketCounter);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BusExists(int id)
+        private bool TicketCounterExists(int id)
         {
-            return (_context.Buses?.Any(e => e.BusId == id)).GetValueOrDefault();
+            return (_context.TicketCounters?.Any(e => e.CounterId == id)).GetValueOrDefault();
         }
     }
 }

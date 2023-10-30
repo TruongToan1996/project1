@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace project1.Models;
+namespace Aptech3.Models;
 
-public partial class Employee
+public partial class User
 {
-    public int EmployeeId { get; set; }
+    public int UserId { get; set; }
 
     public string? FirstName { get; set; }
 
@@ -21,5 +21,13 @@ public partial class Employee
 
     public string? Password { get; set; }
 
-    public string? EmployeeCode { get; set; }
+    public string? UserCode { get; set; }
+
+    public string? Role { get; set; }
+
+    public int? CounterId { get; set; }
+
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
+    public virtual TicketCounter? Counter { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace project1.Models;
+namespace Aptech3.Models;
 
 public partial class Customer
 {
@@ -11,11 +11,13 @@ public partial class Customer
 
     public string? LastName { get; set; }
 
-    public int? Age { get; set; }
-
     public string? Email { get; set; }
 
     public string? Phone { get; set; }
+
+    public int? AgeGroupId { get; set; }
+
+    public virtual AgeGroup? AgeGroup { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }

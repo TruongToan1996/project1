@@ -1,16 +1,17 @@
+using Aptech3.Data;
 using Microsoft.AspNetCore.Authentication;
-using project1;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<BusTicketReservationSystemContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddDbContext<Aptech3Context>(options =>
+           options.UseSqlServer(builder.Configuration.GetConnectionString("MVCDemoConnecttionString")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

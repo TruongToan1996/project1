@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using project1;
-using project1.Models;
+using Aptech3.Data;
+using Aptech3.Models;
 
-namespace project1.Controllers
+namespace Aptech3.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly BusTicketReservationSystemContext _context;
+        private readonly Aptech3Context _context;
 
-        public CustomersController(BusTicketReservationSystemContext context)
+        public CustomersController(Aptech3Context context)
         {
             _context = context;
         }
@@ -88,10 +88,24 @@ namespace project1.Controllers
         {
           if (_context.Customers == null)
           {
-              return Problem("Entity set 'BusTicketReservationSystemContext.Customers'  is null.");
+              return Problem("Entity set 'Aptech3Context.Customers'  is null.");
           }
             _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (CustomerExists(customer.CustomerId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
         }

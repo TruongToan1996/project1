@@ -12,55 +12,55 @@ namespace Aptech3.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusesController : ControllerBase
+    public class RouteDetailsController : ControllerBase
     {
         private readonly Aptech3Context _context;
 
-        public BusesController(Aptech3Context context)
+        public RouteDetailsController(Aptech3Context context)
         {
             _context = context;
         }
 
-        // GET: api/Buses
+        // GET: api/RouteDetails
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bus>>> GetBuses()
+        public async Task<ActionResult<IEnumerable<RouteDetail>>> GetRouteDetails()
         {
-          if (_context.Buses == null)
+          if (_context.RouteDetails == null)
           {
               return NotFound();
           }
-            return await _context.Buses.ToListAsync();
+            return await _context.RouteDetails.ToListAsync();
         }
 
-        // GET: api/Buses/5
+        // GET: api/RouteDetails/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bus>> GetBus(int id)
+        public async Task<ActionResult<RouteDetail>> GetRouteDetail(int id)
         {
-          if (_context.Buses == null)
+          if (_context.RouteDetails == null)
           {
               return NotFound();
           }
-            var bus = await _context.Buses.FindAsync(id);
+            var routeDetail = await _context.RouteDetails.FindAsync(id);
 
-            if (bus == null)
+            if (routeDetail == null)
             {
                 return NotFound();
             }
 
-            return bus;
+            return routeDetail;
         }
 
-        // PUT: api/Buses/5
+        // PUT: api/RouteDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBus(int id, Bus bus)
+        public async Task<IActionResult> PutRouteDetail(int id, RouteDetail routeDetail)
         {
-            if (id != bus.BusId)
+            if (id != routeDetail.RouteDetailId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bus).State = EntityState.Modified;
+            _context.Entry(routeDetail).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace Aptech3.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BusExists(id))
+                if (!RouteDetailExists(id))
                 {
                     return NotFound();
                 }
@@ -81,23 +81,23 @@ namespace Aptech3.Controllers
             return NoContent();
         }
 
-        // POST: api/Buses
+        // POST: api/RouteDetails
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bus>> PostBus(Bus bus)
+        public async Task<ActionResult<RouteDetail>> PostRouteDetail(RouteDetail routeDetail)
         {
-          if (_context.Buses == null)
+          if (_context.RouteDetails == null)
           {
-              return Problem("Entity set 'Aptech3Context.Buses'  is null.");
+              return Problem("Entity set 'Aptech3Context.RouteDetails'  is null.");
           }
-            _context.Buses.Add(bus);
+            _context.RouteDetails.Add(routeDetail);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (BusExists(bus.BusId))
+                if (RouteDetailExists(routeDetail.RouteDetailId))
                 {
                     return Conflict();
                 }
@@ -107,32 +107,32 @@ namespace Aptech3.Controllers
                 }
             }
 
-            return CreatedAtAction("GetBus", new { id = bus.BusId }, bus);
+            return CreatedAtAction("GetRouteDetail", new { id = routeDetail.RouteDetailId }, routeDetail);
         }
 
-        // DELETE: api/Buses/5
+        // DELETE: api/RouteDetails/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBus(int id)
+        public async Task<IActionResult> DeleteRouteDetail(int id)
         {
-            if (_context.Buses == null)
+            if (_context.RouteDetails == null)
             {
                 return NotFound();
             }
-            var bus = await _context.Buses.FindAsync(id);
-            if (bus == null)
+            var routeDetail = await _context.RouteDetails.FindAsync(id);
+            if (routeDetail == null)
             {
                 return NotFound();
             }
 
-            _context.Buses.Remove(bus);
+            _context.RouteDetails.Remove(routeDetail);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BusExists(int id)
+        private bool RouteDetailExists(int id)
         {
-            return (_context.Buses?.Any(e => e.BusId == id)).GetValueOrDefault();
+            return (_context.RouteDetails?.Any(e => e.RouteDetailId == id)).GetValueOrDefault();
         }
     }
 }

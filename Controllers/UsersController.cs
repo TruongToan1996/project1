@@ -12,55 +12,55 @@ namespace Aptech3.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusesController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly Aptech3Context _context;
 
-        public BusesController(Aptech3Context context)
+        public UsersController(Aptech3Context context)
         {
             _context = context;
         }
 
-        // GET: api/Buses
+        // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bus>>> GetBuses()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Buses == null)
+          if (_context.Users == null)
           {
               return NotFound();
           }
-            return await _context.Buses.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Buses/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bus>> GetBus(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Buses == null)
+          if (_context.Users == null)
           {
               return NotFound();
           }
-            var bus = await _context.Buses.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (bus == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return bus;
+            return user;
         }
 
-        // PUT: api/Buses/5
+        // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBus(int id, Bus bus)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != bus.BusId)
+            if (id != user.UserId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bus).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace Aptech3.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BusExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -81,23 +81,23 @@ namespace Aptech3.Controllers
             return NoContent();
         }
 
-        // POST: api/Buses
+        // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bus>> PostBus(Bus bus)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.Buses == null)
+          if (_context.Users == null)
           {
-              return Problem("Entity set 'Aptech3Context.Buses'  is null.");
+              return Problem("Entity set 'Aptech3Context.Users'  is null.");
           }
-            _context.Buses.Add(bus);
+            _context.Users.Add(user);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (BusExists(bus.BusId))
+                if (UserExists(user.UserId))
                 {
                     return Conflict();
                 }
@@ -107,32 +107,32 @@ namespace Aptech3.Controllers
                 }
             }
 
-            return CreatedAtAction("GetBus", new { id = bus.BusId }, bus);
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
-        // DELETE: api/Buses/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBus(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            if (_context.Buses == null)
+            if (_context.Users == null)
             {
                 return NotFound();
             }
-            var bus = await _context.Buses.FindAsync(id);
-            if (bus == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Buses.Remove(bus);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BusExists(int id)
+        private bool UserExists(int id)
         {
-            return (_context.Buses?.Any(e => e.BusId == id)).GetValueOrDefault();
+            return (_context.Users?.Any(e => e.UserId == id)).GetValueOrDefault();
         }
     }
 }
