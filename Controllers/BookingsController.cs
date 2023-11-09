@@ -10,7 +10,7 @@ using Aptech3.Models;
 
 namespace Aptech3.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[Action]")]
     [ApiController]
     public class BookingsController : ControllerBase
     {
