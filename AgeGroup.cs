@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Aptech3.Models;
+using Aptech3.Models.Customers;
 
 namespace Aptech3;
 

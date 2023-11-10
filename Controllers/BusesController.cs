@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aptech3.Data;
+using Aptech3.Models.Buses;
+using Microsoft.AspNetCore.Identity;
+using Aptech3.Models.Bookings;
+using Aptech3.Models.Customers;
 using Aptech3.Models;
 
 namespace Aptech3.Controllers
@@ -84,12 +83,23 @@ namespace Aptech3.Controllers
         // POST: api/Buses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bus>> PostBus(Bus bus)
+        public async Task<ActionResult<Bus>> PostBus(BusInput input)
         {
           if (_context.Buses == null)
           {
               return Problem("Entity set 'Aptech3Context.Buses'  is null.");
           }
+            var bustype = await _context.Buses.FirstOrDefaultAsync(x => x.BusTypeId == input.BusTypeId);
+            var router = await _context.BusRoutes.FirstOrDefaultAsync(x => x.BusRouteId == input.RouteId);
+            
+            var bus = new Bus()
+            {
+                BusName = input.BusName,
+                TotalSeats = input.TotalSeats,
+                DepartureTime = input.DepartureTime,
+                AvailableSeats = input.AvailableSeats,
+                Description = input.Description,
+            };
             _context.Buses.Add(bus);
             try
             {

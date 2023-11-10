@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Aptech3.Models;
+namespace Aptech3.Models.Buses;
 
 public partial class BusType
 {

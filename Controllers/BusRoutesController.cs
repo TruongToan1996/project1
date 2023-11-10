@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aptech3.Data;
-using Aptech3.Models;
+using Aptech3.Models.Buses;
 
 namespace Aptech3.Controllers
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Aptech3.Models;
 
-public partial class TicketCounter
+public  class TicketCounter
 {
     public int CounterId { get; set; }
 

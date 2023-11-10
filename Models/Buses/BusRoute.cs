@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Aptech3.Models;
+namespace Aptech3.Models.Buses;
 
-public partial class BusRoute
+public class BusRoute
 {
     public int BusRouteId { get; set; }
 

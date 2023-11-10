@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Aptech3.Models.Bookings;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace Aptech3.Models;
 
-public partial class User
+public class User : IdentityUser
 {
-    public int UserId { get; set; }
+    //public int UserId { get; set; }
 
     public string? FirstName { get; set; }
 
@@ -17,13 +19,13 @@ public partial class User
 
     public string? Qualification { get; set; }
 
-    public string? Username { get; set; }
+    //public string? Username { get; set; }
 
-    public string? Password { get; set; }
+    //public string? Password { get; set; }
 
     public string? UserCode { get; set; }
 
-    public string? Role { get; set; }
+    //public string? Role { get; set; }
 
     public int? CounterId { get; set; }
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Aptech3.Models.Buses;
+using Aptech3.Models.Customers;
 
-namespace Aptech3.Models;
+namespace Aptech3.Models.Bookings;
 
 public partial class Booking
 {
@@ -9,7 +11,7 @@ public partial class Booking
 
     public int? CustomerId { get; set; }
 
-    public int? UserId { get; set; }
+    public string UserId { get; set; }
 
     public int? BusId { get; set; }
 

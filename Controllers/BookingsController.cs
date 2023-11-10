@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aptech3.Data;
 using Aptech3.Models;
+using Microsoft.AspNetCore.Identity;
+using Aptech3.Models.Bookings;
 
 namespace Aptech3.Controllers
 {
@@ -15,20 +17,22 @@ namespace Aptech3.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly Aptech3Context _context;
+        private readonly UserManager<User> _userManager;
 
-        public BookingsController(Aptech3Context context)
+        public BookingsController(Aptech3Context context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Bookings
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Booking>>> GetBookings()
         {
-          if (_context.Bookings == null)
-          {
-              return NotFound();
-          }
+            if (_context.Bookings == null)
+            {
+                return NotFound();
+            }
             return await _context.Bookings.ToListAsync();
         }
 
@@ -36,10 +40,10 @@ namespace Aptech3.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Booking>> GetBooking(int id)
         {
-          if (_context.Bookings == null)
-          {
-              return NotFound();
-          }
+            if (_context.Bookings == null)
+            {
+                return NotFound();
+            }
             var booking = await _context.Bookings.FindAsync(id);
 
             if (booking == null)
@@ -53,12 +57,28 @@ namespace Aptech3.Controllers
         // PUT: api/Bookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooking(int id, Booking booking)
+        public async Task<IActionResult> PutBooking(int id, BookingInput input)
         {
-            if (id != booking.BookingId)
+
+            var booking = await _context.Bookings.FirstOrDefaultAsync(x => x.BookingId == id);
+            var user = await _userManager.FindByIdAsync(input.UserId);
+            // check neu co use != null thi gan no
+            var customer = await _context.Customers.FirstOrDefaultAsync(x => x.CustomerId == input.CustomerId);
+            // check neu co use != null thi gan no
+            var bus = await _context.Buses.FirstOrDefaultAsync(x => x.BusId == input.BusId);
+            if (booking == null)
             {
                 return BadRequest();
             }
+
+
+            booking.BookingDate = input.BookingDate;
+            booking.TravelDate = input.TravelDate;
+            booking.NumberOfSeats = input.NumberOfSeats;
+            booking.TotalPrice = input.TotalPrice;
+            booking.PaymentStatus = input.PaymentStatus;
+            booking.Status = input.Status;
+            booking.Description = input.Description;
 
             _context.Entry(booking).State = EntityState.Modified;
 
@@ -84,12 +104,33 @@ namespace Aptech3.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
+        public async Task<ActionResult<Booking>> PostBooking(BookingInput input)
         {
-          if (_context.Bookings == null)
-          {
-              return Problem("Entity set 'Aptech3Context.Bookings'  is null.");
-          }
+            if (_context.Bookings == null)
+            {
+                return Problem("Entity set 'Aptech3Context.Bookings'  is null.");
+            }
+            var user = await _userManager.FindByIdAsync(input.UserId);
+
+            // check neu co use != null thi gan no
+            var customer = await _context.Customers.FirstOrDefaultAsync(x => x.CustomerId == input.CustomerId);
+            // check neu co use != null thi gan no
+            var bus = await _context.Buses.FirstOrDefaultAsync(x => x.BusId == input.BusId);
+
+
+            var booking = new Booking()
+            {
+                User = user,
+                Customer = customer,
+                BookingDate = input.BookingDate,
+                TravelDate = input.TravelDate,
+                NumberOfSeats = input.NumberOfSeats,
+                TotalPrice = input.TotalPrice,
+                PaymentStatus = input.PaymentStatus,
+                Status = input.Status,
+                Description = input.Description,
+
+            };
             _context.Bookings.Add(booking);
             try
             {

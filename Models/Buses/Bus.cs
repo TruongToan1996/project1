@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Aptech3.Models.Bookings;
 
-namespace Aptech3.Models;
+namespace Aptech3.Models.Buses;
 
-public partial class Bus
+public class Bus
 {
     public int BusId { get; set; }
 

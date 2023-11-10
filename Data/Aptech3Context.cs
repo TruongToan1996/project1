@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using Aptech3.Models;
 using Microsoft.EntityFrameworkCore;
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Aptech3.Models.Bookings;
+using Aptech3.Models.Buses;
+using Aptech3.Models.Customers;
+
 namespace Aptech3.Data;
 
-public partial class Aptech3Context : DbContext
+public  class Aptech3Context : IdentityDbContext<User>
 {
     public Aptech3Context()
     {
@@ -32,7 +37,7 @@ public partial class Aptech3Context : DbContext
 
     public virtual DbSet<TicketCounter> TicketCounters { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    //public virtual DbSet<User> Users { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -40,6 +45,7 @@ public partial class Aptech3Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<AgeGroup>(entity =>
         {
             entity.ToTable("AgeGroup");
@@ -163,31 +169,31 @@ public partial class Aptech3Context : DbContext
             entity.Property(e => e.Location).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.UserId).HasName("PK_Employees");
+        //modelBuilder.Entity<User>(entity =>
+        //{
+        //    entity.HasKey(e => e.UserId).HasName("PK_Employees");
 
-            entity.Property(e => e.UserId)
-                .ValueGeneratedNever()
-                .HasColumnName("UserID");
-            entity.Property(e => e.Address).HasMaxLength(255);
-            entity.Property(e => e.CounterId).HasColumnName("CounterID");
-            entity.Property(e => e.FirstName).HasMaxLength(50);
-            entity.Property(e => e.LastName).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Phone).HasMaxLength(12);
-            entity.Property(e => e.Qualification).HasMaxLength(255);
-            entity.Property(e => e.Role).HasMaxLength(50);
-            entity.Property(e => e.UserCode).HasMaxLength(50);
-            entity.Property(e => e.Username).HasMaxLength(50);
+        //    entity.Property(e => e.UserId)
+        //        .ValueGeneratedNever()
+        //        .HasColumnName("UserID");
+        //    entity.Property(e => e.Address).HasMaxLength(255);
+        //    entity.Property(e => e.CounterId).HasColumnName("CounterID");
+        //    entity.Property(e => e.FirstName).HasMaxLength(50);
+        //    entity.Property(e => e.LastName).HasMaxLength(50);
+        //    entity.Property(e => e.Password).HasMaxLength(50);
+        //    entity.Property(e => e.Phone).HasMaxLength(12);
+        //    entity.Property(e => e.Qualification).HasMaxLength(255);
+        //    entity.Property(e => e.Role).HasMaxLength(50);
+        //    entity.Property(e => e.UserCode).HasMaxLength(50);
+        //    entity.Property(e => e.Username).HasMaxLength(50);
 
-            entity.HasOne(d => d.Counter).WithMany(p => p.Users)
-                .HasForeignKey(d => d.CounterId)
-                .HasConstraintName("FK_Users_TicketCounter");
-        });
+        //    entity.HasOne(d => d.Counter).WithMany(p => p.Users)
+        //        .HasForeignKey(d => d.CounterId)
+        //        .HasConstraintName("FK_Users_TicketCounter");
+        //});
 
-        OnModelCreatingPartial(modelBuilder);
+        //OnModelCreatingPartial(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

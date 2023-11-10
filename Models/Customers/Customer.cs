@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Aptech3.Models.Bookings;
 
-namespace Aptech3.Models;
+namespace Aptech3.Models.Customers;
 
 public partial class Customer
 {
